@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="iso3.hib.ejemploCC.Evaluacion" table="EVALUACION">
+
+        <id name="id" column="EV_ID">
+            <generator class="native"/>
+        </id>
+
+        <property name="concepto" column="EV_CONCEPTO" not-null="true"/>
+		<property name="nota" column="EV_NOTA" not-null="true"/>
+		
+		<many-to-one name="alumno" column="AL_ID" not-null="true"/>
+	
+		<many-to-one name="asignatura" column="AS_ID" not-null="true"/>
+		
+    </class>
+
+</hibernate-mapping>

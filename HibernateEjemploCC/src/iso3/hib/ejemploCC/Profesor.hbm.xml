@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="iso3.hib.ejemploCC.Profesor" table="PROFESOR">
+
+        <id name="id" column="PR_ID">
+            <generator class="native"/>
+        </id>
+
+        <property name="nombre" column="PR_NOMBRE" unique="true" not-null="true"/>
+        <property name="dni" column="PR_DNI"/>
+        <property name="password" column="PR_PASSWORD"/>
+        <property name="telefono" column="PR_TELEFONO"/>
+        <property name="email" column="PR_EMAIL"/>
+		<property name="despacho" column="PR_DESPACHO"/> 
+		
+   	</class>
+   
+</hibernate-mapping>
