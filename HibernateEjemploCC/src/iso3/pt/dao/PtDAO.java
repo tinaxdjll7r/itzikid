@@ -173,21 +173,11 @@ public class PtDAO
 	//	} */
 		Session session = getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
-		List<Alumno> result = session.createQuery("from Alumno where id = " + idAlumno).list();
-		Alumno alumno = result.get(0);
+		Alumno alumno = getAlumno(idAlumno);
 		Asignatura asignatura = getAsignatura(idAsignatura);
 		alumno.addAsignatura(asignatura);
 		asignatura.addAlumno(alumno);
-		session.update(alumno);
-	//	session.update(asignatura);
 		tx.commit();
-		Alumno alumno1 = getAlumno(idAlumno);
-		System.out.println(alumno1.getNombre());
-		Set<Asignatura> asignaturas = alumno1.getAsignaturas();
-		for(Asignatura asignaturaPrueba :asignaturas)
-	      {
-	    	  System.out.println(asignaturaPrueba.getId());
-	      }
 	}
 	public void desmatricular(int idAlumno, int idAsignatura) //no guarda la sesion
 	{
