@@ -21,7 +21,7 @@ import org.hibernate.cfg.Configuration;
 
 
 
-public class PtDAO 
+public class PtDAO implements IPtDAO
 {
 	 private static final SessionFactory sessionFactory = buildSessionFactory();
 
