@@ -23,7 +23,30 @@ import org.hibernate.cfg.Configuration;
 
 public class PtDAO implements IPtDAO
 {
-	 private static final SessionFactory sessionFactory = buildSessionFactory();
+	 private static SessionFactory sessionFactory = buildSessionFactory();
+	 private static PtDAO ptDAOInstance = null;
+	 
+	 private PtDAO()
+	 {
+		 try {
+	            // Create the SessionFactory from hibernate.cfg.xml
+	            sessionFactory =  new Configuration().configure().buildSessionFactory();
+	        }
+	        catch (Throwable ex) {
+	            // Make sure you log the exception, as it might be swallowed
+	            System.err.println("Initial SessionFactory creation failed." + ex);
+	            throw new ExceptionInInitializerError(ex);
+	        }
+	 }
+	 
+	 public PtDAO getInstance()
+	 {
+		if(ptDAOInstance == null)
+		{
+			ptDAOInstance = new PtDAO();
+		}
+		 return ptDAOInstance;
+	 }
 
 	    private static SessionFactory buildSessionFactory() {
 	        try {
