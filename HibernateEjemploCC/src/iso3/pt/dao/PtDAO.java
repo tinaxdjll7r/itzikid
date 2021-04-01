@@ -23,14 +23,16 @@ import org.hibernate.cfg.Configuration;
 
 public class PtDAO implements IPtDAO
 {
-	 private static SessionFactory sessionFactory = buildSessionFactory();
+	 private static SessionFactory sessionFactory;
 	 private static PtDAO ptDAOInstance = null;
+	 private Session session;
 	 
 	 private PtDAO()
 	 {
 		 try {
 	            // Create the SessionFactory from hibernate.cfg.xml
 	            sessionFactory =  new Configuration().configure().buildSessionFactory();
+	            this.session = sessionFactory.openSession();
 	        }
 	        catch (Throwable ex) {
 	            // Make sure you log the exception, as it might be swallowed
@@ -48,91 +50,77 @@ public class PtDAO implements IPtDAO
 		 return ptDAOInstance;
 	 }
 
-	    private static SessionFactory buildSessionFactory() {
-	        try {
-	            // Create the SessionFactory from hibernate.cfg.xml
-	            return new Configuration().configure().buildSessionFactory();
-	        }
-	        catch (Throwable ex) {
-	            // Make sure you log the exception, as it might be swallowed
-	            System.err.println("Initial SessionFactory creation failed." + ex);
-	            throw new ExceptionInInitializerError(ex);
-	        }
-	    }
+	protected void finalize() throws Throwable 
+	{
+		super.finalize();
+		sessionFactory.close();
+	}
 
-	    public static SessionFactory getSessionFactory() {
-	        return sessionFactory;
-	    }
-		protected void finalize() throws Throwable 
-		{
-			super.finalize();
-			sessionFactory.close();
-		}
-
-		public Profesor getProfesor(int idAsignatura)
+	public Profesor getProfesor(int idAsignatura)
+    {
+	    List<Asignatura> result = session.createQuery("from Asignatura where id = " + idAsignatura + "").list();
+	    return result.get(0).getProfesor();
+    }
+    public Set<Alumno> getAlumnos(int idAsignatura)
+    {
+	    List<Asignatura> result = session.createQuery("from Asignatura where id = " + idAsignatura+"").list();
+	    return result.get(0).getAlumnos();
+    }
+    public List<Evaluacion> getEvaluacionesOrderedByAsignatura(int idAlumno)
+    {
+    	List<Evaluacion> result = session.createQuery("from Evaluacion where alumno.id =" + idAlumno + " order by asignatura.id desc" ).list();
+    	return result;
+    }
+    public Set<Evaluacion> getEvaluaciones(int idAsignatura, int idAlumno)
+    {
+    	List<Evaluacion> result = session.createQuery("from Evaluacion where alumno.id =" + idAlumno + "and asignatura.id =" + idAsignatura).list();
+    	Set<Evaluacion> setEvaluaciones = new HashSet(result);
+    	return setEvaluaciones;
+    }
+    public void addEvaluacion(String concepto, float nota, int idAsignatura, int idAlumno)
+    {
+    	Transaction tx = this.session.beginTransaction();
+    	Evaluacion evaluacion = new Evaluacion(concepto, nota);
+    	Asignatura asignatura = getAsignatura(idAsignatura);
+    	Alumno alumno = getAlumno(idAlumno);
+    	evaluacion.setNota(nota);
+    	evaluacion.setAsignatura(asignatura);
+    	evaluacion.setAlumno(alumno);
+    	evaluacion.setConcepto(concepto);
+    	session.save(evaluacion);
+    	tx.commit();
+    }
+    public Set<Unidad> getUnidades(int idAsignatura)
+    {
+    	Asignatura asignatura = getAsignatura(idAsignatura);
+    	return asignatura.getUnidades();
+    }
+    public Set<Asignatura> getAsignaturas()
+    {
+	    List<Asignatura> result = session.createQuery("from Asignatura").list();
+	    Set<Asignatura> asignaturas = new HashSet(result);
+	    return asignaturas;
+    }
+    public Alumno getAlumno(int id)
+    {
+    	Alumno result = null;
+	    List<Alumno> alumnos = session.createQuery("from Alumno where id = " + id).list();
+	    if (alumnos.size() != 0)
 	    {
-	    	Session session = getSessionFactory().openSession();
-		    List<Asignatura> result = session.createQuery("from Asignatura where id = " + idAsignatura + "").list();
-		    return result.get(0).getProfesor();
+	    	result = alumnos.get(0);
 	    }
-	    public Set<Alumno> getAlumnos(int idAsignatura)
-	    {
-	    	Session session = getSessionFactory().openSession();
-		    List<Asignatura> result = session.createQuery("from Asignatura where id = " + idAsignatura+"").list();
-		    return result.get(0).getAlumnos();
-	    }
-	    public List<Evaluacion> getEvaluacionesOrderedByAsignatura(int idAlumno)
-	    {
-	    	Session session = getSessionFactory().openSession();
-	    	List<Evaluacion> result = session.createQuery("from Evaluacion where alumno.id =" + idAlumno + " order by asignatura.id desc" ).list();
-	    	return result;
-	    }
-	    public Set<Evaluacion> getEvaluaciones(int idAsignatura, int idAlumno)
-	    {
-	    	Session session = getSessionFactory().openSession();
-	    	List<Evaluacion> result = session.createQuery("from Evaluacion where alumno.id =" + idAlumno + "and asignatura.id =" + idAsignatura).list();
-	    	Set<Evaluacion> setEvaluaciones = new HashSet(result);
-	    	return setEvaluaciones;
-	    }
-	    public void addEvaluacion(String concepto, float nota, int idAsignatura, int idAlumno)
-	    {
-	    	Session session = getSessionFactory().openSession();
-	    	Evaluacion evaluacion = new Evaluacion(concepto, nota);
-	    	Asignatura asignatura = getAsignatura(idAsignatura);
-	    	Alumno alumno = getAlumno(idAlumno);
-	    	evaluacion.setAsignatura(asignatura);
-	    	evaluacion.setAlumno(alumno);
-	    	session.save(evaluacion);
-	    }
-	    public Set<Unidad> getUnidades(int idAsignatura)
-	    {
-	    	Asignatura asignatura = getAsignatura(idAsignatura);
-	    	return asignatura.getUnidades();
-	    }
-	    public Set<Asignatura> getAsignaturas()
-	    {
-	    	Session session = getSessionFactory().openSession();
-		    List<Asignatura> result = session.createQuery("from Asignatura").list();
-		    Set<Asignatura> asignaturas = new HashSet(result);
-		    return asignaturas;
-	    }
-	    public Alumno getAlumno(int id)
-	    {
-	    	Session session = getSessionFactory().openSession();
-		    List<Alumno> result = session.createQuery("from Alumno where id = " + id).list();
-		    return result.get(0);
-	    }
-	    public Asignatura getAsignatura(int id)
-	    {
-	    	Session session = getSessionFactory().openSession();
-		    List<Asignatura> result = session.createQuery("from Asignatura where id = " + id).list();
-		    return result.get(0);
-	    }
+	    return result;
+    }
+    public Asignatura getAsignatura(int id)
+    {
+	    List<Asignatura> result = session.createQuery("from Asignatura where id = " + id).list();
+	    return result.get(0);
+    }
 	 //-----------------------------------------------------------   
 	public Alumno loginAlumno(int dni, String pass) throws UserNotFoundException, IncorrectPasswordException //probada
 	{
-		Session session = getSessionFactory().openSession();
 		List<Alumno> result = session.createQuery("from Alumno where dni = " + dni).list();
+		//List<Alumno> result = (List<Alumno>) this.getAlumno(dni);
 		if (result.isEmpty())
 		{
 			throw new UserNotFoundException("No se ha encontrado el alumno con DNI " + dni);
@@ -154,7 +142,6 @@ public class PtDAO implements IPtDAO
 	
 	    public Set<Asignatura> getAsignaturas(int idAlumno) //probada
 	{
-		Session session = getSessionFactory().openSession();
 	    List<Alumno> result = session.createQuery("from Alumno where id = " + idAlumno).list();
 	    Set<Asignatura> asignaturas = result.get(0).getAsignaturas();
 	    return asignaturas;
@@ -194,7 +181,6 @@ public class PtDAO implements IPtDAO
 			}
 			tx.commit();
 	//	} */
-		Session session = getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		Alumno alumno = getAlumno(idAlumno);
 		Asignatura asignatura = getAsignatura(idAsignatura);
@@ -204,7 +190,6 @@ public class PtDAO implements IPtDAO
 	}
 	public void desmatricular(int idAlumno, int idAsignatura) //no guarda la sesion
 	{
-		Session session = getSessionFactory().openSession();
 		List<Alumno> result = session.createQuery("from Alumno where id =" + idAlumno).list();
 		Alumno alumno = result.get(0);
 		Set<Asignatura> asignaturas = alumno.getAsignaturas();
@@ -220,7 +205,6 @@ public class PtDAO implements IPtDAO
 	
 	public Profesor loginProfesor(int dni, String pass) throws UserNotFoundException, IncorrectPasswordException //probada
 	{
-		Session session = getSessionFactory().openSession();
 		List<Profesor> result = session.createQuery("from Profesor where dni = " + dni).list();
 		if(result.isEmpty())
 		{
@@ -241,8 +225,8 @@ public class PtDAO implements IPtDAO
 	
 	public Set<Asignatura> getAsignaturasProfesor(int idProfesor) //probada
 	{
-		Session session = getSessionFactory().openSession();
 	    List<Asignatura> result = session.createQuery("from Asignatura where pr_id = " + idProfesor).list();
+	    //getProfesorByDni ???
 	    if (result == null)
 	    {
 	    	System.out.println("result a null");
@@ -255,15 +239,15 @@ public class PtDAO implements IPtDAO
 	    }
 	    return asignaturas;
     }
+	
 	public Profesor getProfesorByDni(int dni) throws UserNotFoundException //probada
 	{
-		Session session = getSessionFactory().openSession();
 		List<Profesor> result = session.createQuery("from Profesor where pr_dni = " + dni).list();
 		return result.get(0);
 	}
+	
 	public List<Evaluacion> getEvaluacionesAsignatura(int idAsignatura) //probada
 	{
-		Session session = getSessionFactory().openSession();
 		List<Evaluacion> result = session.createQuery("from Evaluacion where asignatura = " + idAsignatura).list();
 		return result;
 	}
