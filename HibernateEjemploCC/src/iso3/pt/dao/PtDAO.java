@@ -41,7 +41,7 @@ public class PtDAO implements IPtDAO
 	        }
 	 }
 	 
-	 public PtDAO getInstance()
+	 public static PtDAO getInstance()
 	 {
 		if(ptDAOInstance == null)
 		{
@@ -146,61 +146,41 @@ public class PtDAO implements IPtDAO
 	    Set<Asignatura> asignaturas = result.get(0).getAsignaturas();
 	    return asignaturas;
 	}
-	public void matricular(int idAlumno, int idAsignatura) //no guarda la sesion
+	public void matricular(int idAlumno, int idAsignatura) 
 	{
-	/*	Session session = getSessionFactory().openSession();
+		
 		Transaction tx = session.beginTransaction();
 		Alumno alumno = getAlumno(idAlumno);
 		Asignatura asignatura = getAsignatura(idAsignatura);
-		alumno.addAsignatura(asignatura);
-		asignatura.addAlumno(alumno);
-		tx.commit(); */
-	/*	Session session = getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
-		List<Alumno> result = session.createQuery("from Alumno where id =" + idAlumno).list();
-	/*	if(result == null)
+		Set<Asignatura> asignaturas = alumno.getAsignaturas();
+		boolean matriculado = asignaturas.contains(asignatura);
+		if(!matriculado)
 		{
-			Alumno alumno = new Alumno(3333, "ccc", "ccc", "333");
-			Asignatura asignatura = new Asignatura();
-			asignatura = this.getAsignatura(idAsignatura);
 			alumno.addAsignatura(asignatura);
-			session.save(alumno);
+			asignatura.addAlumno(alumno);
 		}
-		else */
-	//	{
-	/*		Alumno alumno = result.get(0);
-			Set<Asignatura> asignaturas = alumno.getAsignaturas();
-			boolean estaMatriculado = asignaturas.contains(session.createQuery("from Asignatura where id = " + idAsignatura).list().get(0));
-			System.out.println(estaMatriculado);
-			while(!estaMatriculado)
-			{
-				Asignatura asignatura = getAsignatura(idAsignatura);
-				alumno.addAsignatura(asignatura);
-			//	session.save(alumno);
-				estaMatriculado = true;
-			}
-			tx.commit();
-	//	} */
-		Transaction tx = session.beginTransaction();
-		Alumno alumno = getAlumno(idAlumno);
-		Asignatura asignatura = getAsignatura(idAsignatura);
-		alumno.addAsignatura(asignatura);
-		asignatura.addAlumno(alumno);
+		else{
+			System.out.println("El alumno ya está matriculado");
+		}
 		tx.commit();
 	}
-	public void desmatricular(int idAlumno, int idAsignatura) //no guarda la sesion
+	public void desmatricular(int idAlumno, int idAsignatura) 
 	{
-		List<Alumno> result = session.createQuery("from Alumno where id =" + idAlumno).list();
-		Alumno alumno = result.get(0);
+		Transaction tx = session.beginTransaction();
+		Alumno alumno = getAlumno(idAlumno);
+		Asignatura asignatura = getAsignatura(idAsignatura);
 		Set<Asignatura> asignaturas = alumno.getAsignaturas();
-		// contains devuelve true o false si el set contiene la asignaura o no
-		boolean estaMatriculado = asignaturas.contains(session.createQuery("from Asignatura where id = " + idAsignatura).list().get(0));
-		System.out.println(estaMatriculado);
-		if(estaMatriculado)
+		boolean matriculado = asignaturas.contains(asignatura);
+		if(matriculado)
 		{
-			alumno.removeAsignatura(this.getAsignatura(idAsignatura));
-			session.save(alumno);
+			alumno.removeAsignatura(asignatura);
+			asignatura.removeAlumno(alumno);
 		}
+		else
+		{
+			System.out.println("El alumno no está matriculado");
+		}
+		tx.commit();
 	}
 	
 	public Profesor loginProfesor(int dni, String pass) throws UserNotFoundException, IncorrectPasswordException //probada
@@ -250,106 +230,6 @@ public class PtDAO implements IPtDAO
 	{
 		List<Evaluacion> result = session.createQuery("from Evaluacion where asignatura = " + idAsignatura).list();
 		return result;
-	}
-	
-
-	public static void main(String args[])
-	{
-	      PtDAO dao =  new PtDAO();
-	      System.out.println("Asig1 Profesor.id:" + dao.getProfesor(1).getId());
-	      System.out.println("Asig1 Alumnos:" + dao.getAlumnos(1).size());
-	      List<Evaluacion> evaluacionesAlumno1 = dao.getEvaluacionesOrderedByAsignatura(1);
-	      System.out.println("Evaluaciones Alumno1 Order by Asig:");
-	      for (Evaluacion evaluacion: evaluacionesAlumno1)
-	      {
-	    	  System.out.println(evaluacion.getId());
-	      }
-	      Set<Evaluacion> evaluacionesAs1Al1 = dao.getEvaluaciones(1, 1);
-	      System.out.println("Evaluaciones Alumno1 Asig1:");
-	      for (Evaluacion evaluacion: evaluacionesAs1Al1)
-	      {
-	    	  System.out.print(evaluacion.getId());
-	      }
-	      System.out.println();
-	      Set<Unidad> unidades = dao.getUnidades(1);
-	      System.out.println("Unidades asig1:");
-	      for (Unidad unidad: unidades)
-	      {
-	    	  System.out.println(unidad.getId());
-	      }
-	      Set<Asignatura> asignaturas = dao.getAsignaturas();
-	      System.out.println("Asignaturas:");
-	      for (Asignatura asignatura: asignaturas)
-	      {
-	    	  System.out.println(asignatura.getId());
-	      }
-	      Alumno alumno = dao.getAlumno(1);
-	      System.out.println("Alumno1:" + alumno.getNombre());
-	      Asignatura asignatura = dao.getAsignatura(1);
-	      System.out.println("Asignatura1:" + asignatura.getNombre());
-	      dao.addEvaluacion("dddd", 7, 1, 2);
-	      
-	      Set<Asignatura> asignaturasAl = dao.getAsignaturas(1);
-	      System.out.println("Asignaturas de alumno 1: ");
-	      for(Asignatura asignaturaAl: asignaturasAl)
-	      {
-	    	  System.out.println(asignaturaAl.getId());
-	      }
-	      
-	      Set<Asignatura> asignaturasPr = dao.getAsignaturasProfesor(1);
-	      System.out.println("Asignaturas profesor 1: ");
-	      if(asignaturasPr == null)
-	      {
-	    	  System.out.println("esta a null");
-	      }
-	      for(Asignatura asignaturaPr: asignaturasPr)
-	      {
-	    	  System.out.println(asignaturaPr.getId());
-	      }
-	    
-	     
-	/*     Profesor profesor = null;
-		try
-		{
-			profesor = dao.getProfesorByDni(1);
-		} catch (UserNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	     System.out.println("Profesor con dni " + profesor.getDni());
-	     
-	     List<Evaluacion> evaluaciones = dao.getEvaluacionesAsignatura(1);
-	     System.out.println("Evaluaciones de asignatura 1: ");
-	     for(Evaluacion evaluacionAs: evaluaciones)
-	     {
-	    	 System.out.println(evaluacionAs.getId());
-	     }*/
-	      dao.matricular(1, 2);
-	      Alumno alumnoPrueba = dao.getAlumno(1);
-	      System.out.println("alumno " + alumnoPrueba.getDni());
-	      Set<Asignatura> asignaturasPrueba = alumnoPrueba.getAsignaturas();
-	      for(Asignatura asignaturaPrueba :asignaturasPrueba)
-	      {
-	    	  System.out.println(asignaturaPrueba.getId());
-	      }	
-	 //     dao.desmatricular(2, 2);
-	/*     Alumno alumnoLogin = null;
-	     try
-	     {
-	    	 alumnoLogin = dao.loginAlumno(1, "1111");
-	     }
-	     catch (UserNotFoundException e){e.printStackTrace();}
-	     catch (IncorrectPasswordException e) {e.printStackTrace();}
-	     System.out.println(alumnoLogin.getNombre());
-	     
-	     Profesor profesorLogin = null;
-	     try
-	     {
-	    	 profesorLogin = dao.loginProfesor(1, "1");
-	     }
-	     catch (UserNotFoundException e){e.printStackTrace();}
-	     catch (IncorrectPasswordException e) {e.printStackTrace();}
-	     System.out.println(profesorLogin.getNombre()); */
 	}
 	
 }

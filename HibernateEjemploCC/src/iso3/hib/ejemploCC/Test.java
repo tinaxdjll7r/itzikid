@@ -1,5 +1,9 @@
 package iso3.hib.ejemploCC;
 
+import iso3.pt.dao.IncorrectPasswordException;
+import iso3.pt.dao.PtDAO;
+import iso3.pt.dao.UserNotFoundException;
+
 import java.util.*;
 
 import org.hibernate.*;
@@ -245,13 +249,132 @@ public class Test {
 		}
 
 	    public static void main(String[] args) {
-	    	Test t1 = new Test();
+	    	/*	Test t1 = new Test();
 	    	t1.inserciones1();
-	    /*	t1.busquedaPK();
+	    	t1.busquedaPK();
 	    	t1.inserciones2();
 	    	t1.busquedaCompleja();
 	    	t1.borrado();
-	    	t1.inserciones3(); */
-	    	t1.close();
+	    	t1.inserciones3(); 
+	    	t1.close();*/
+	    	
+	    	//--------------------------------------------------
+	    	//FUNCIONES DE PRUEBA DE LA CLASE PtDAO
+	    	//--------------------------------------------------
+	    	
+			  PtDAO dao = PtDAO.getInstance();
+			  //getProfesor
+			  System.out.println("Asig1 Profesor.id:" + dao.getProfesor(1).getId());
+			  //getAlumnos
+		      System.out.println("Asig1 Alumnos:" + dao.getAlumnos(1).size());
+		      //getEvaluacionesOrderedByAsignatura
+		      List<Evaluacion> evaluacionesAlumno1 = dao.getEvaluacionesOrderedByAsignatura(1);
+		      System.out.println("Evaluaciones Alumno1 Order by Asig:");
+		      for (Evaluacion evaluacion: evaluacionesAlumno1)
+		      {
+		    	  System.out.println(evaluacion.getId());
+		      }
+		      //getEvaluaciones
+		      Set<Evaluacion> evaluacionesAs1Al1 = dao.getEvaluaciones(1, 1);
+		      System.out.println("Evaluaciones Alumno1 Asig1:");
+		      for (Evaluacion evaluacion: evaluacionesAs1Al1)
+		      {
+		    	  System.out.print(evaluacion.getId());
+		      }
+		      System.out.println();
+		      //getUnidades
+		      Set<Unidad> unidades = dao.getUnidades(1);
+		      System.out.println("Unidades asig1:");
+		      for (Unidad unidad: unidades)
+		      {
+		    	  System.out.println(unidad.getId());
+		      }
+		      //getAsignaturas
+		      Set<Asignatura> asignaturas = dao.getAsignaturas();
+		      System.out.println("Asignaturas:");
+		      for (Asignatura asignatura: asignaturas)
+		      {
+		    	  System.out.println(asignatura.getId());
+		      }
+		      //getAlumno
+		      Alumno alumno = dao.getAlumno(1);
+		      System.out.println("Alumno1:" + alumno.getNombre());
+		      //getAsignatura
+		      Asignatura asignatura = dao.getAsignatura(1);
+		      System.out.println("Asignatura1:" + asignatura.getNombre());
+		      //addEvaluacion
+		      dao.addEvaluacion("dddd", 7, 1, 2);
+		      //getAsignaturas
+		      Set<Asignatura> asignaturasAl = dao.getAsignaturas(1);
+		      System.out.println("Asignaturas de alumno 1: ");
+		      for(Asignatura asignaturaAl: asignaturasAl)
+		      {
+		    	  System.out.println(asignaturaAl.getId());
+		      }
+		      //getAsignaturasProfesor
+		      Set<Asignatura> asignaturasPr = dao.getAsignaturasProfesor(1);
+		      System.out.println("Asignaturas profesor 1: ");
+		      if(asignaturasPr == null)
+		      {
+		    	  System.out.println("esta a null");
+		      }
+		      for(Asignatura asignaturaPr: asignaturasPr)
+		      {
+		    	  System.out.println(asignaturaPr.getId());
+		      }
+		    
+		     //getProfesorByDni
+		     Profesor profesor = null;
+			try
+			{
+				profesor = dao.getProfesorByDni(1);
+			} catch (UserNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		     System.out.println("Profesor con dni " + profesor.getDni());
+		     //getEvaluacionesAsignatura
+		     List<Evaluacion> evaluaciones = dao.getEvaluacionesAsignatura(1);
+		     System.out.println("Evaluaciones de asignatura 1: ");
+		     for(Evaluacion evaluacionAs: evaluaciones)
+		     {
+		    	 System.out.println(evaluacionAs.getId());
+		     }
+		     //matricular
+		      dao.matricular(1, 2);
+		      Alumno alumnoPrueba = dao.getAlumno(1);
+		      System.out.println("alumno " + alumnoPrueba.getDni());
+		      Set<Asignatura> asignaturasPrueba = alumnoPrueba.getAsignaturas();
+		      for(Asignatura asignaturaPrueba :asignaturasPrueba)
+		      {
+		    	  System.out.println(asignaturaPrueba.getId());
+		      }	
+		      //desmatricular
+		      dao.desmatricular(1, 2);
+		      Alumno alumnoPrueba1 = dao.getAlumno(1);
+		      System.out.println("alumno " + alumnoPrueba1.getDni());
+		      Set<Asignatura> asignaturasPrueba1 = alumnoPrueba1.getAsignaturas();
+		      for(Asignatura asignaturaPrueba :asignaturasPrueba1)
+		      {
+		    	  System.out.println(asignaturaPrueba.getId());
+		      }	
+		      //alumnoLogin
+		     Alumno alumnoLogin = null;
+		     try
+		     {
+		    	 alumnoLogin = dao.loginAlumno(1, "1111");
+		     }
+		     catch (UserNotFoundException e){e.printStackTrace();}
+		     catch (IncorrectPasswordException e) {e.printStackTrace();}
+		     System.out.println(alumnoLogin.getNombre());
+		     //profesorLogin
+		     Profesor profesorLogin = null;
+		     try
+		     {
+		    	 profesorLogin = dao.loginProfesor(1, "1");
+		     }
+		     catch (UserNotFoundException e){e.printStackTrace();}
+		     catch (IncorrectPasswordException e) {e.printStackTrace();}
+		     System.out.println(profesorLogin.getNombre()); 
 	    }
 	}
