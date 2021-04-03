@@ -7,6 +7,7 @@ import iso3.hib.ejemploCC.Alumno;
 import iso3.hib.ejemploCC.Unidad;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,6 +27,7 @@ public class PtDAO implements IPtDAO
 	 private static SessionFactory sessionFactory;
 	 private static PtDAO ptDAOInstance = null;
 	 private Session session;
+	 private HashMap<Integer,Asignatura> asignaturas;
 	 
 	 private PtDAO()
 	 {
@@ -39,6 +41,7 @@ public class PtDAO implements IPtDAO
 	            System.err.println("Initial SessionFactory creation failed." + ex);
 	            throw new ExceptionInInitializerError(ex);
 	        }
+	     cachearAsignaturas();
 	 }
 	 
 	 public static PtDAO getInstance()
@@ -56,27 +59,50 @@ public class PtDAO implements IPtDAO
 		sessionFactory.close();
 	}
 
+	public void cachearAsignaturas()
+	{
+		List<Asignatura> asignaturasList = session.createQuery("from Asignatura").list();
+		this.asignaturas = new HashMap<Integer,Asignatura> ();
+		for (Asignatura asignatura: asignaturasList)
+		{
+			this.asignaturas.put(asignatura.getId(),asignatura);
+		}
+	}
+	
 	public Profesor getProfesor(int idAsignatura)
     {
-	    List<Asignatura> result = session.createQuery("from Asignatura where id = " + idAsignatura + "").list();
-	    return result.get(0).getProfesor();
+		Asignatura asig = this.asignaturas.get(idAsignatura);
+	    return asig.getProfesor();
     }
+	
     public Set<Alumno> getAlumnos(int idAsignatura)
     {
-	    List<Asignatura> result = session.createQuery("from Asignatura where id = " + idAsignatura+"").list();
-	    return result.get(0).getAlumnos();
+	    Asignatura asig = this.asignaturas.get(idAsignatura);
+	    return asig.getAlumnos();
     }
+    
     public List<Evaluacion> getEvaluacionesOrderedByAsignatura(int idAlumno)
     {
     	List<Evaluacion> result = session.createQuery("from Evaluacion where alumno.id =" + idAlumno + " order by asignatura.id desc" ).list();
     	return result;
     }
+    
     public Set<Evaluacion> getEvaluaciones(int idAsignatura, int idAlumno)
     {
-    	List<Evaluacion> result = session.createQuery("from Evaluacion where alumno.id =" + idAlumno + "and asignatura.id =" + idAsignatura).list();
-    	Set<Evaluacion> setEvaluaciones = new HashSet(result);
+    	Set<Evaluacion> setEvaluaciones = new HashSet<Evaluacion> ();
+    	Asignatura asig = this.getAsignatura(idAsignatura);
+    	Alumno alum = this.getAlumno(idAlumno);
+    	Set<Evaluacion> evaluaciones =  alum.getEvaluaciones();
+    	for (Evaluacion evaluacion: evaluaciones)
+    	{
+			if(evaluacion.getAsignatura().equals(asig))
+			{
+				setEvaluaciones.add(evaluacion);
+			}
+    	}
     	return setEvaluaciones;
     }
+    
     public void addEvaluacion(String concepto, float nota, int idAsignatura, int idAlumno)
     {
     	Transaction tx = this.session.beginTransaction();
@@ -90,17 +116,20 @@ public class PtDAO implements IPtDAO
     	session.save(evaluacion);
     	tx.commit();
     }
+    
     public Set<Unidad> getUnidades(int idAsignatura)
     {
     	Asignatura asignatura = getAsignatura(idAsignatura);
     	return asignatura.getUnidades();
     }
+    
     public Set<Asignatura> getAsignaturas()
     {
 	    List<Asignatura> result = session.createQuery("from Asignatura").list();
-	    Set<Asignatura> asignaturas = new HashSet(result);
+	    Set<Asignatura> asignaturas = new HashSet<Asignatura>(result);
 	    return asignaturas;
     }
+    
     public Alumno getAlumno(int id)
     {
     	Alumno result = null;
@@ -113,20 +142,18 @@ public class PtDAO implements IPtDAO
     }
     public Asignatura getAsignatura(int id)
     {
-	    List<Asignatura> result = session.createQuery("from Asignatura where id = " + id).list();
-	    return result.get(0);
+	    Asignatura asig = this.asignaturas.get(id);
+	    return asig;
     }
 	 //-----------------------------------------------------------   
 	public Alumno loginAlumno(int dni, String pass) throws UserNotFoundException, IncorrectPasswordException //probada
 	{
-		List<Alumno> result = session.createQuery("from Alumno where dni = " + dni).list();
-		//List<Alumno> result = (List<Alumno>) this.getAlumno(dni);
-		if (result.isEmpty())
+		Alumno alumno = this.getAlumno(dni);
+		if (alumno == null)
 		{
 			throw new UserNotFoundException("No se ha encontrado el alumno con DNI " + dni);
 		}
 		
-		Alumno alumno = result.get(0);
 		if(!(pass.equalsIgnoreCase(alumno.getPassword())))
 		{
 			
@@ -142,8 +169,8 @@ public class PtDAO implements IPtDAO
 	
 	    public Set<Asignatura> getAsignaturas(int idAlumno) //probada
 	{
-	    List<Alumno> result = session.createQuery("from Alumno where id = " + idAlumno).list();
-	    Set<Asignatura> asignaturas = result.get(0).getAsignaturas();
+	    Alumno alum = this.getAlumno(idAlumno);
+	    Set<Asignatura> asignaturas = alum.getAsignaturas();
 	    return asignaturas;
 	}
 	public void matricular(int idAlumno, int idAsignatura) 
@@ -160,7 +187,7 @@ public class PtDAO implements IPtDAO
 			asignatura.addAlumno(alumno);
 		}
 		else{
-			System.out.println("El alumno ya está matriculado");
+			System.out.println("El alumno ya estï¿½ matriculado");
 		}
 		tx.commit();
 	}
@@ -178,19 +205,18 @@ public class PtDAO implements IPtDAO
 		}
 		else
 		{
-			System.out.println("El alumno no está matriculado");
+			System.out.println("El alumno no estï¿½ matriculado");
 		}
 		tx.commit();
 	}
 	
 	public Profesor loginProfesor(int dni, String pass) throws UserNotFoundException, IncorrectPasswordException //probada
 	{
-		List<Profesor> result = session.createQuery("from Profesor where dni = " + dni).list();
-		if(result.isEmpty())
+		Profesor profesor = this.getProfesorByDni(dni);
+		if(profesor == null)
 		{
 			throw new UserNotFoundException("No se ha encontrado el usuario profesor con DNI " + dni);
 		}
-		Profesor profesor = result.get(0);
 		if(!(pass.equalsIgnoreCase(profesor.getPassword())))
 		{
 			System.out.println("password incorrecta");
@@ -205,19 +231,16 @@ public class PtDAO implements IPtDAO
 	
 	public Set<Asignatura> getAsignaturasProfesor(int idProfesor) //probada
 	{
-	    List<Asignatura> result = session.createQuery("from Asignatura where pr_id = " + idProfesor).list();
-	    //getProfesorByDni ???
-	    if (result == null)
-	    {
-	    	System.out.println("result a null");
-	    }
-	    Set<Asignatura> asignaturas = new HashSet<Asignatura>();
-	 //   asignaturas.add(result.get(0));
-	    for(int i = 0; i < result.size(); i++)
-	    {
-	    	asignaturas.add(result.get(i));
-	    }
-	    return asignaturas;
+		Set<Asignatura> setAsignaturas = new HashSet<Asignatura>();
+	
+		for (Asignatura asignatura: this.asignaturas.values())
+		{
+			if (asignatura.getProfesor().getId() == idProfesor)
+			{
+				setAsignaturas.add(asignatura);
+			}
+		}
+    	return setAsignaturas;
     }
 	
 	public Profesor getProfesorByDni(int dni) throws UserNotFoundException //probada
