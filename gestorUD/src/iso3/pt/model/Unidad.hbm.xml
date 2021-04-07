@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="iso3.hib.ejemploCC.Unidad" table="UNIDAD">
+
+        <id name="id" column="UN_ID">
+            <generator class="native"/>
+        </id>
+
+        <property name="acronimo" column="UN_ACRONIMO" unique="true" not-null="true"/>
+		<property name="titulo" column="UN_TITULO" not-null="true"/>
+		<property name="contenido" column="UN_CONTENIDO"/> 
+				
+   </class>
+   
+</hibernate-mapping>
