@@ -1,6 +1,9 @@
 <project basedir="." default="deploy" name="gestorUD">
 	<property environment="env"/>
-	<property name="tomcat.home" value="/var/lib/tomcat6"/>
+	<!-- Nahikari -->
+	<!--<property name="tomcat.home" value="/var/lib/tomcat6"/> -->
+	<!-- Itziar -->
+	<property name="tomcat.home" value="C:/Programming/apache-tomcat-7.0.19"/>
 	<property name="project.file" value="gestorUD"/>
     <property name="source.dir" value="src"/>
     <property name="build.dir" value="bin"/>

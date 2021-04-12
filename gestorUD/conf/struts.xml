@@ -12,33 +12,10 @@
 			<result>/jsp/login.jsp</result>
         </action>
 
-		<action name="login" class="iso3.pt.action.LoginAction" method="login">
-			<result  name="success">/jsp/login.jsp</result>
-            <result  name="input">/jsp/login.jsp</result>
-			<result  name="error">/jsp/error.jsp</result>
-			<result  name="listStudentSubjects">/jsp/studentSubjects.jsp</result>
-			<result  name="listLecturerSubjects">/jsp/lecturerSubjects.jsp</result>
-        </action>
-        <!-- Login Form Configuration -->
-        <action name="showLogin">
-			<result>/jsp/login.jsp</result>
-        </action>
-
-        <action name="doLogin" class="iso3.pt.Login">
+		<action name="showLogin">
             <result  name="input">/jsp/login.jsp</result>
 			<result  name="error">/jsp/login.jsp</result>
 			<result>/jsp/loginsuccess.jsp</result>
         </action>
-
-        <action name="showLoginClientSideValidation">
-			<result>/jsp/loginClientSideValidation.jsp</result>
-        </action>
-
-        <action name="doLoginClientSideValidation" class="iso3.pt.Login">
-            <result  name="input">/jsp/loginClientSideValidation.jsp</result>
-			<result  name="error">/jsp/loginClientSideValidation.jsp</result>
-			<result>/jsp/loginsuccess.jsp</result>
-        </action>
-		
 	</package>
 </struts>
