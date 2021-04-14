@@ -5,7 +5,7 @@
 
 <hibernate-mapping>
 
-    <class name="iso3.hib.ejemploCC.Asignatura" table="ASIGNATURA">
+    <class name="iso3.pt.model.Asignatura" table="ASIGNATURA">
 
         <id name="id" column="AS_ID">
             <generator class="native"/>
@@ -19,12 +19,12 @@
 		
 		<set name="unidades" lazy="true" cascade="all">
 			<key column="AS_ID"/>
-				<one-to-many class="iso3.hib.ejemploCC.Unidad"/>
+				<one-to-many class="iso3.pt.model.Unidad"/>
 		</set>
 		
 		<set name="alumnos" table="MATRICULADO" lazy="true">
 			<key column="AS_ID"/>
-			<many-to-many column="AL_ID" class="iso3.hib.ejemploCC.Alumno"/>
+			<many-to-many column="AL_ID" class="iso3.pt.model.Alumno"/>
 		</set>
 		
 		

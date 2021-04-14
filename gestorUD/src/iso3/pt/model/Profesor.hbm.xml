@@ -5,7 +5,7 @@
 
 <hibernate-mapping>
 
-    <class name="iso3.hib.ejemploCC.Profesor" table="PROFESOR">
+    <class name="iso3.pt.model.Profesor" table="PROFESOR">
 
         <id name="id" column="PR_ID">
             <generator class="native"/>

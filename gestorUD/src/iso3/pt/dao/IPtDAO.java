@@ -1,7 +1,6 @@
 package iso3.pt.dao;
 
 import java.util.*;
-
 import iso3.pt.model.*;
 
 public interface IPtDAO {

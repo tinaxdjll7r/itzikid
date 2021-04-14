@@ -17,7 +17,7 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 
-
+ 
 public class PtDAO implements IPtDAO
 {
 	 private static SessionFactory sessionFactory;

@@ -12,7 +12,7 @@
 			<result>/jsp/login.jsp</result>
         </action>
 
-		<action name="showLogin">
+		<action name="doLogin" class="iso3.pt.action.Login">
             <result  name="input">/jsp/login.jsp</result>
 			<result  name="error">/jsp/login.jsp</result>
 			<result>/jsp/loginsuccess.jsp</result>
