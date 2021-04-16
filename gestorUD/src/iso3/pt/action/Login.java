@@ -60,7 +60,7 @@ public class Login  extends ActionSupport
 				}else
 				{
 					session.put("logged",profesorLogin);
-					result = SUCCESS;
+					result = "succesProfesor";
 				}
     	 }
 	     System.out.println("Validating login");
