@@ -22,6 +22,13 @@
         <action name="doListSubjects" class="iso3.pt.action.LecturerAction" method="listSubjects">
         	<result>/jsp/lecturerSubjects.jsp</result>
         	<result name="success">/jsp/lecturerSubjects.jsp</result>
+        	<result name="logout" type="chain">showLogin</result>
+        	<result name="studentsList">/jsp/subjectStudents.jsp</result>
         </action>
+        
+        <action name="doSubject" class="iso3.pt.action.SubjectAction">
+        	<result  name="showUnitList">/jsp/subjectUnitList.jsp</result>
+        </action>
+        
 	</package>
 </struts>

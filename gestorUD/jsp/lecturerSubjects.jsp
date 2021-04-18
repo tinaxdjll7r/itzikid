@@ -3,10 +3,10 @@
 <html>
 	<head>
 	    <link href="<s:url value='/css/main.css'/>" rel="stylesheet" type="text/css"/>
-	    <title><s:text name="label.languagedesigner.subject"/></title>
+	    <title><s:text name="application.tittle"/></title>
 	</head>
 	<body>
-		<div class="titleDiv"><s:text name="application.languagedesigners.title"/></div>
+		<div class="titleDiv"><s:text name="application.title"/></div>
 		<h1><s:text name="label.lecturerSubjects.listBy"/> <s:property value="profesor.nombre"/> <s:property value="profesor.dni"/> </h1>
 		<br/>
 		<table>
@@ -34,8 +34,19 @@
 		            <td class="nowrap"><s:property value="nombre"/></td>
 		            <td class="nowrap"><s:property value="creditos"/></td>
 		            <td class="nowrap"><s:property value="%{profesor.getNombre()}"/></td>
-		            <td class="nowrap"><s:property value="%{unidades.size()}"/></td>
+		            <td class="nowrap">
+		           		<s:url id="unitList" action="doSubject!ShowSubjectUnits">
+		           		<s:param name="subjectId" value="%{id}" />
+		           		</s:url>
+						<s:a href="%{unitList}"><s:text name="%{unidades.size()}"/></s:a>
+					</td>
 		            <td class="nowrap"><s:property value="%{alumnos.size()}"/></td>
+		            <td class="nowrap">
+		           		<s:url id="studentList" action="doListSubjects!ShowSubjectStudents">
+		           		<s:param name="subjectId" value="%{id}" />
+		           		</s:url>
+						<s:a href="%{studentList}"><s:text name="label.lecturerSubjects.students"/></s:a>
+					</td>
 		        </tr>
 		    </s:iterator>
 		</table>

@@ -1,10 +1,15 @@
 package iso3.pt.action;
+ 
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+
+
 import iso3.pt.dao.PtDAO;
+import iso3.pt.model.Alumno;
 import iso3.pt.model.Asignatura;
 import iso3.pt.model.Profesor;
 
@@ -13,14 +18,15 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.Preparable;
 
 public class LecturerAction extends ActionSupport implements Preparable
-{
-
+{ 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private Profesor profesor;
 	private List<Asignatura> listaAsignaturas;
+	private List<Alumno> listaAlumnos;
+	private int subjectId;
 	
 	
 	public Profesor getProfesor() {
@@ -37,6 +43,22 @@ public class LecturerAction extends ActionSupport implements Preparable
 
 	public void setListaAsignaturas(List<Asignatura> listaAsignaturas) {
 		this.listaAsignaturas = listaAsignaturas;
+	}
+
+	public List<Alumno> getListaAlumnos() {
+		return listaAlumnos;
+	}
+
+	public void setListaAlumnos(List<Alumno> listaAlumnos) {
+		this.listaAlumnos = listaAlumnos;
+	}
+
+	public int getSubjectId() {
+		return subjectId;
+	}
+
+	public void setSubjectId(int subjectId) {
+		this.subjectId = subjectId;
 	}
 
 	@Override
@@ -58,5 +80,30 @@ public class LecturerAction extends ActionSupport implements Preparable
 	public String doListSubjects()
 	{
 		return SUCCESS;
+	}
+	
+	public String doLogout()
+	{
+		Map session = ActionContext.getContext().getSession();
+		if(session.get("logged")!=null)
+		{
+			session.remove("logged");
+		}
+		return "logout";
+	}
+	
+	public String doShowSubjectStudents()
+	{
+		PtDAO dao = PtDAO.getInstance();
+		this.listaAlumnos = new ArrayList<Alumno>();
+		if(this.listaAlumnos.size() == 0)
+		{
+			Set<Alumno> alumnosSet = dao.getAlumnos(subjectId);
+			for(Alumno alumno: alumnosSet)
+			{
+				this.listaAlumnos.add(alumno);
+			}
+		}
+		return "studentsList";
 	}
 }

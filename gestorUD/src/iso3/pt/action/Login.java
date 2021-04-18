@@ -41,6 +41,7 @@ public class Login  extends ActionSupport
 		            result = ERROR;
 				}else{
 					session.put("logged",alumnoLogin);
+					
 					result = SUCCESS;
 				}
     	 }
