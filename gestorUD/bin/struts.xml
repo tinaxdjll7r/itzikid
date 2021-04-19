@@ -1,0 +1,34 @@
+<!DOCTYPE struts PUBLIC 
+	"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+	"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!-- Configuration for the default package. -->
+	<package name="default" extends="struts-default">
+		
+		<!-- Default interceptor stack. -->
+		<default-interceptor-ref name="paramsPrepareParamsStack"/>
+		
+		<action name="showLogin">
+			<result>/jsp/login.jsp</result>
+        </action>
+
+		<action name="doLogin" class="iso3.pt.action.Login">
+			<result>/jsp/loginsuccess.jsp</result>
+            <result  name="input">/jsp/login.jsp</result>
+			<result  name="error">/jsp/login.jsp</result>
+			<result name="succesProfesor" type="chain">doListSubjects</result>
+        </action>
+        
+        <action name="doListSubjects" class="iso3.pt.action.LecturerAction" method="listSubjects">
+        	<result>/jsp/lecturerSubjects.jsp</result>
+        	<result name="success">/jsp/lecturerSubjects.jsp</result>
+        	<result name="logout" type="chain">showLogin</result>
+        	<result name="studentsList">/jsp/subjectStudents.jsp</result>
+        </action>
+        
+        <action name="doSubject" class="iso3.pt.action.SubjectAction">
+        	<result  name="showUnitList">/jsp/subjectUnitList.jsp</result>
+        </action>
+        
+	</package>
+</struts>
