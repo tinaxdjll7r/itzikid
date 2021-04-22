@@ -1,17 +1,16 @@
 package iso3.pt.action;
  
 
+import iso3.pt.dao.PtDAO;
+import iso3.pt.model.Alumno;
+import iso3.pt.model.Asignatura;
+import iso3.pt.model.Profesor;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-
-
-import iso3.pt.dao.PtDAO;
-import iso3.pt.model.Alumno;
-import iso3.pt.model.Asignatura;
-import iso3.pt.model.Profesor;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -53,6 +52,7 @@ public class LecturerAction extends ActionSupport implements Preparable
 		this.listaAlumnos = listaAlumnos;
 	}
 
+	
 	public int getSubjectId() {
 		return subjectId;
 	}

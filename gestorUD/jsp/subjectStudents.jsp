@@ -7,8 +7,8 @@
 	</head>
 	<body>
 		<div class="titleDiv"><s:text name="application.title"/></div>
-		<h1><s:text name="label.subjectStudents.marksStudentsBy"/> " <s:property value="profesor.nombre"/>"
-		    <s:text name="label.subjectStudents.subject"/> " <s:property value="subjectName"/> " </h1>
+		<h1><s:text name="label.subjectsStudents.marksStudentsBy"/> " <s:property value="profesor.nombre"/>"
+		    <s:text name="label.subjectsStudents.subject"/> " <s:property value="subjectName"/> " </h1>
 		<br/>
 		<br/>
 		<table class="borderAll">
