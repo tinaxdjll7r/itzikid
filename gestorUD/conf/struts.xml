@@ -24,10 +24,17 @@
         	<result name="success">/jsp/lecturerSubjects.jsp</result>
         	<result name="logout" type="chain">showLogin</result>
         	<result name="studentsList">/jsp/subjectStudents.jsp</result>
+        	<result name="addMark" type="chain">doSubjectMarking</result>
+        	<result name="backListSubjects">/jsp/lecturerSubjects.jsp</result>
+        	
         </action>
         
         <action name="doSubject" class="iso3.pt.action.SubjectAction">
-        	<result  name="showUnitList">/jsp/subjectUnitList.jsp</result>
+        	<result name="showUnitList">/jsp/subjectUnitList.jsp</result>
+        </action>
+        
+        <action name="doSubjectMarking" class="iso3.pt.action.SubjectMarkingAction" method="prueba">
+        	<result name="addMark">/jsp/studentSubjectMarkingForm.jsp</result>
         </action>
         
 	</package>

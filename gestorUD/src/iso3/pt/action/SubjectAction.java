@@ -17,11 +17,11 @@ import com.opensymphony.xwork2.Preparable;
 
 public class SubjectAction extends ActionSupport implements Preparable
 { 
-	private Asignatura asignatura;
 	private int subjectId;
+	private int studentDni;
+	private Asignatura asignatura;
 	private List<Evaluacion> listaEvaluaciones;
 	private List<Unidad> listaUnidades;
-
 	
 	public Asignatura getAsignatura() {
 		return asignatura;
@@ -60,6 +60,16 @@ public class SubjectAction extends ActionSupport implements Preparable
 
 	public void setListaUnidades(List<Unidad> listaUnidades) {
 		this.listaUnidades = listaUnidades;
+	}
+
+	
+	public int getStudentDni() {
+		return studentDni;
+	}
+
+
+	public void setStudentDni(int studentDni) {
+		this.studentDni = studentDni;
 	}
 
 

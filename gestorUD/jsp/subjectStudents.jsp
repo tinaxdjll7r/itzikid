@@ -7,16 +7,17 @@
 	</head>
 	<body>
 		<div class="titleDiv"><s:text name="application.title"/></div>
-		<h1><s:text name="label.subjectsStudents.marksStudentsBy"/> " <s:property value="profesor.nombre"/>"
-		    <s:text name="label.subjectsStudents.subject"/> " <s:property value="subjectName"/> " </h1>
+		<h1><s:text name="label.subjectStudents.marksStudentsBy"/> " <s:property value="profesor.nombre"/>"
+		    <s:text name="label.subjectStudents.subject"/>" <s:property value="subjectName"/>"
+		</h1>
 		<br/>
 		<br/>
 		<table class="borderAll">
 		    <tr>
-		        <th><s:text name="label.subjectsStudents.dni"/></th>
-		        <th><s:text name="label.subjectsStudents.nombre"/></th>
-		        <th><s:text name="label.subjectsStudents.telefono"/></th>
-		        <th><s:text name="label.subjectsStudents.nota"/></th>
+		        <th><s:text name="label.subjectStudents.dni"/></th>
+		        <th><s:text name="label.subjectStudents.nombre"/></th>
+		        <th><s:text name="label.subjectStudents.telefono"/></th>
+		        <th><s:text name="label.subjectStudents.nota"/></th>
 		        <th>&nbsp;&nbsp;</th>
 		    </tr>
 		    <s:iterator value="listaAlumnos" status="status">
@@ -24,10 +25,17 @@
 		            <td class="nowrap"><s:property value="dni"/></td>
 		            <td class="nowrap"><s:property value="nombre"/></td>
 		            <td class="nowrap"><s:property value="telefono"/></td>
-		            <td class="nowrap"><s:property value="nota"/></td>
+		            <td class="nowrap">
+		            	<s:url id="addMark" action="doListSubjects!addMark">
+		           		<s:param name="studentDni" value="%{dni}" />
+		           		</s:url>
+						<s:a href="%{addMark}"><s:text name="label.subjectStudents.addMark"/></s:a>
+					</td>
 		        </tr>
 		    </s:iterator>
 		</table>
-		
+		<s:form action="doListSubjects" method="backListSubjects">
+			<s:submit value="%{getText('label.subjectStudents.cancelButton')}" align="center"/>
+		</s:form>
 	</body>
 </html>
