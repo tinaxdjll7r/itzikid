@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-
-import iso3.pt.dao.PtDAO;
 import iso3.pt.model.Asignatura;
 import iso3.pt.model.Evaluacion;
 import iso3.pt.model.Unidad;
+import iso3.pt.service.PtDaoService;
 
 
 import com.opensymphony.xwork2.ActionContext;
@@ -75,13 +74,13 @@ public class SubjectAction extends ActionSupport implements Preparable
 
 	public void prepare() throws Exception 
 	{
-		PtDAO dao = PtDAO.getInstance();
+		PtDaoService dao = new PtDaoService();
 		this.asignatura = dao.getAsignatura(subjectId);
 	}
 
 	public String doShowSubjectUnits()   
 	{
-		PtDAO dao = PtDAO.getInstance();
+		PtDaoService dao = new PtDaoService();
 		this.listaUnidades = new ArrayList<Unidad>();
 		if(this.listaUnidades.size() == 0)
 		{

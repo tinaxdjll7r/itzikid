@@ -1,10 +1,11 @@
 package iso3.pt.action;
  
 
-import iso3.pt.dao.PtDAO;
+
 import iso3.pt.model.Alumno;
 import iso3.pt.model.Asignatura;
 import iso3.pt.model.Profesor;
+import iso3.pt.service.PtDaoService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +66,7 @@ public class LecturerAction extends ActionSupport implements Preparable
 	public void prepare() throws Exception
 	{
 		this.listaAsignaturas = new ArrayList<Asignatura>();
-		PtDAO dao = PtDAO.getInstance();
+		PtDaoService dao = new PtDaoService();
 		if(this.listaAsignaturas.size() == 0)
 		{
 			this.profesor = (Profesor)ActionContext.getContext().getSession().get("logged");
@@ -94,7 +95,7 @@ public class LecturerAction extends ActionSupport implements Preparable
 	
 	public String doShowSubjectStudents()
 	{
-		PtDAO dao = PtDAO.getInstance();
+		PtDaoService dao = new PtDaoService();
 		this.listaAlumnos = new ArrayList<Alumno>();
 		if(this.listaAlumnos.size() == 0)
 		{
@@ -105,5 +106,10 @@ public class LecturerAction extends ActionSupport implements Preparable
 			}
 		}
 		return "studentsList";
+	}
+	
+	public String doAddMark()
+	{
+		return "addMark";
 	}
 }

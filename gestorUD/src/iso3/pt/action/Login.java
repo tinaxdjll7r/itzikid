@@ -2,10 +2,10 @@ package iso3.pt.action;
 import java.util.Map;
 
 import iso3.pt.dao.IncorrectPasswordException;
-import iso3.pt.dao.PtDAO;
 import iso3.pt.dao.UserNotFoundException;
 import iso3.pt.model.Alumno;
 import iso3.pt.model.Profesor;
+import iso3.pt.service.PtDaoService;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -20,7 +20,7 @@ public class Login  extends ActionSupport
     {
     	 Map session = ActionContext.getContext().getSession();
     	 String result = INPUT;
-    	 PtDAO dao = PtDAO.getInstance();
+    	 PtDaoService dao = new PtDaoService();
     	 if (getUsername() == null || getPassword() == null) 
     	 {
  			addActionError("Compulsory to specify both username and password!");

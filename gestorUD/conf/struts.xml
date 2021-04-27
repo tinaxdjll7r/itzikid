@@ -19,23 +19,22 @@
 			<result name="succesProfesor" type="chain">doListSubjects</result>
         </action>
         
-        <action name="doListSubjects" class="iso3.pt.action.LecturerAction" method="listSubjects">
-        	<result>/jsp/lecturerSubjects.jsp</result>
-        	<result name="success">/jsp/lecturerSubjects.jsp</result>
-        	<result name="logout" type="chain">showLogin</result>
-        	<result name="studentsList">/jsp/subjectStudents.jsp</result>
-        	<result name="addMark" type="chain">doSubjectMarking</result>
-        	<result name="backListSubjects">/jsp/lecturerSubjects.jsp</result>
-        	
+     	 <action name="doListSubjects" class="iso3.pt.action.LecturerAction" method="listSubjects">
+	    	<result>/jsp/lecturerSubjects.jsp</result>
+	    	<result name="success">/jsp/lecturerSubjects.jsp</result>
+	    	<result name="logout" type="chain">showLogin</result>
+	    	<result name="studentsList">/jsp/subjectStudents.jsp</result>
+	    	<result name="backListSubjects">/jsp/lecturerSubjects.jsp</result>
+	    	<result name="addMark" type="chain">doSubjectMarking</result>
         </action>
         
         <action name="doSubject" class="iso3.pt.action.SubjectAction">
         	<result name="showUnitList">/jsp/subjectUnitList.jsp</result>
         </action>
         
-        <action name="doSubjectMarking" class="iso3.pt.action.SubjectMarkingAction" method="prueba">
-        	<result name="addMark">/jsp/studentSubjectMarkingForm.jsp</result>
+        <action name="doSubjectMarking" class="iso3.pt.action.SubjectMarkingAction" method="markForm">
+        	<result>/jsp/studentSubjectMarkingForm.jsp</result>
+        	<result name="success">/jsp/studentSubjectMarkingForm.jsp</result>
         </action>
-        
 	</package>
 </struts>

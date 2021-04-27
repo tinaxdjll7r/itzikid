@@ -3,6 +3,7 @@ package iso3.pt.model;
 import iso3.pt.dao.IncorrectPasswordException;
 import iso3.pt.dao.PtDAO;
 import iso3.pt.dao.UserNotFoundException;
+import iso3.pt.service.PtDaoService;
 
 import java.util.*;
 
@@ -262,7 +263,7 @@ public class Test {
 	    	//FUNCIONES DE PRUEBA DE LA CLASE PtDAO
 	    	//--------------------------------------------------
 	    	
-			  PtDAO dao = PtDAO.getInstance();
+			  PtDaoService dao = new PtDaoService();
 			  //getProfesor
 			  System.out.println("Asig1 Profesor.id:" + dao.getProfesor(1).getId());
 			  //getAlumnos
