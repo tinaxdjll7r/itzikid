@@ -32,9 +32,10 @@
         	<result name="showUnitList">/jsp/subjectUnitList.jsp</result>
         </action>
         
-        <action name="doSubjectMarking" class="iso3.pt.action.SubjectMarkingAction" method="markForm">
+        <action name="doSubjectMarking" class="iso3.pt.action.SubjectMarkingAction" method="mark">
         	<result>/jsp/studentSubjectMarkingForm.jsp</result>
         	<result name="success">/jsp/studentSubjectMarkingForm.jsp</result>
+        	<result name="showStudentMarks" type="chain">doListSubjects</result>
         </action>
 	</package>
 </struts>
