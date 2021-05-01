@@ -17,6 +17,7 @@
             <result  name="input">/jsp/login.jsp</result>
 			<result  name="error">/jsp/login.jsp</result>
 			<result name="succesProfesor" type="chain">doListSubjects</result>
+			<result name="succesAlumno" type="chain">doListSubjectsAlumno</result>
         </action>
         
      	 <action name="doListSubjects" class="iso3.pt.action.LecturerAction" method="listSubjects">
@@ -26,6 +27,24 @@
 	    	<result name="studentsList">/jsp/subjectStudents.jsp</result>
 	    	<result name="backListSubjects">/jsp/lecturerSubjects.jsp</result>
 	    	<result name="addMark" type="chain">doSubjectMarking</result>
+        </action>
+        
+        <action name="doListSubjectsAlumno" class="iso3.pt.action.StudentAction" method="listSubjects">
+        	<result>/jsp/studentSubjects.jsp</result>
+        	<result name="success">/jsp/studentSubject.jsp</result>
+        	<result name="logout" type="chain">showLogin</result>
+        	<result name="evaluacionList" type="chain">doShowMarks</result>
+        	<result name="formularioMatricular" type="chain">/jsp/StudentSubjectRegistrationForm.jsp</result>
+        	<result name="matricular" type="chain">/jsp/studentSubject.jsp</result>
+        	<result name="desmatricular" type="chain">/jsp/studentSubject.jsp</result>
+        </action>
+        
+        <action name="doShowMarks" class="iso3.pt.action.SubjectAction" method="doShowMarks">
+        	<result name="evaluacionList" type="chain">/jsp/StudentAllSubjectsMarks.jsp</result>
+        </action>
+        
+        <action name="doFormularioMatricular" class="iso3.pt.action.StudentAction" method="doFormularioMatricular">
+        	<result name="formularioMatricular" type="chain">/jsp/StudentSubjectRegistrationForm.jsp</result>
         </action>
         
         <action name="doSubject" class="iso3.pt.action.SubjectAction">
