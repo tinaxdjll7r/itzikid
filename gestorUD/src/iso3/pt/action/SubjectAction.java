@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import iso3.pt.model.Alumno;
 import iso3.pt.model.Asignatura;
 import iso3.pt.model.Evaluacion;
 import iso3.pt.model.Unidad;
@@ -91,5 +92,21 @@ public class SubjectAction extends ActionSupport implements Preparable
 			}
 		}
 		return "showUnitList";
+	}
+	
+	public String doShowMarks()
+	{
+		PtDaoService dao = new PtDaoService();
+		this.listaEvaluaciones = new ArrayList<Evaluacion>();
+		Alumno alumno = (Alumno)ActionContext.getContext().getSession().get("logged");
+		if(this.listaEvaluaciones.size() == 0)
+		{
+			Set<Evaluacion> evalSet = dao.getEvaluaciones(subjectId, alumno.getDni());
+			for(Evaluacion evaluacion: evalSet)
+			{
+				this.listaEvaluaciones.add(evaluacion);
+			}
+		}
+		return "evaluacionList";
 	}
 }
