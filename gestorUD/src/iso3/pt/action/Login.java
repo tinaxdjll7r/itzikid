@@ -42,7 +42,7 @@ public class Login  extends ActionSupport
 				}else{
 					session.put("logged",alumnoLogin);
 					
-					result = SUCCESS;
+					result = "succesAlumno";
 				}
     	 }
     	 else if (this.type.equals(getText("label.login.profesor")))
