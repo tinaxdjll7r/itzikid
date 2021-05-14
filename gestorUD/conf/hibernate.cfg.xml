@@ -8,8 +8,8 @@
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/ptdao</property>
         <property name="hibernate.connection.username">root</property>
-        <!--<property name="hibernate.connection.password">eside</property> --> 
-        <property name="hibernate.connection.password">1123</property>
+        <property name="hibernate.connection.password">eside</property>  
+        <!--<property name="hibernate.connection.password">1123</property>-->
         
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
        <!-- <property name="hbm2ddl.auto">create</property>-->
