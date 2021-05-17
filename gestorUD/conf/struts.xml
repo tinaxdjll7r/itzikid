@@ -33,22 +33,15 @@
         	<result>/jsp/studentSubjects.jsp</result>
         	<result name="success">/jsp/studentSubject.jsp</result>
         	<result name="logout" type="chain">showLogin</result>
-        	<result name="evaluacionList" type="chain">doShowMarks</result>
-        	<result name="formularioMatricular" type="chain">/jsp/StudentSubjectRegistrationForm.jsp</result>
-        	<result name="matricular" type="chain">/jsp/studentSubject.jsp</result>
-        	<result name="desmatricular" type="chain">/jsp/studentSubject.jsp</result>
+        	<result name="formularioMatricular">/jsp/StudentSubjectRegistrationForm.jsp</result>
+        	<result name="matricular">/jsp/studentSubject.jsp</result>
+        	<result name="desmatricular">/jsp/studentSubject.jsp</result>
         </action>
         
-        <action name="doShowMarks" class="iso3.pt.action.SubjectAction" method="doShowMarks">
-        	<result name="evaluacionList" type="chain">/jsp/StudentAllSubjectsMarks.jsp</result>
-        </action>
-        
-        <action name="doFormularioMatricular" class="iso3.pt.action.StudentAction" method="doFormularioMatricular">
-        	<result name="formularioMatricular" type="chain">/jsp/StudentSubjectRegistrationForm.jsp</result>
-        </action>
         
         <action name="doSubject" class="iso3.pt.action.SubjectAction">
         	<result name="showUnitList">/jsp/subjectUnitList.jsp</result>
+        	<result name="evaluacionList">/jsp/StudentAllSubjectsMarks.jsp</result>
         </action>
         
         <action name="doSubjectMarking" class="iso3.pt.action.SubjectMarkingAction" method="mark">
