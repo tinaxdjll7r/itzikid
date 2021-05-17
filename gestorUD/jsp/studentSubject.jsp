@@ -12,15 +12,15 @@
 		<table>
 			<tr>
 				<td>
-					<s:url id="urlMatricular" action="doFormularioMatricular" escapeAmp="false"/>
-					<a href="<s:property value="#urlMatricular"/>"><s:text name="label.subjectStudent.matricular"/></a>
+					<s:url id="FormularioMatricular" action="doListSubjectsAlumno!FormularioMatricular"/>
+					<a href="<s:property value="%{FormularioMatricular}"/>"><s:text name="label.subjectStudent.matricular"/></a>
 				</td>
 				<td>
-					<s:url id="urlNotas" action="doShowMarks" escapeAmp="false"/>
-					<a href="<s:property value="#urlNotas"/>"><s:text name="label.subjectStudent.showAllMarks"/></a>
+					<s:url id="ShowMarks" action="doSubject!ShowMarks"/>
+					<a href="<s:property value="%{ShowMarks}"/>"><s:text name="label.subjectStudent.showAllMarks"/></a>
 				</td>
 				<td>
-					<s:url id="urlLogout" action="showLogin" escapeAmp="false"/>
+					<s:url id="urlLogout" action="showLogin"/>
 					<a href="<s:property value="#urlLogout"/>"><s:text name="label.subjectStudent.logout"/></a>
 				</td>
 			</tr>
