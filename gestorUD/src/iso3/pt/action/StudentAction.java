@@ -53,9 +53,9 @@ public class StudentAction extends ActionSupport implements Preparable {
 	public void prepare() throws Exception {
 		this.listaAsignaturas = new ArrayList<Asignatura>();
 		PtDAO dao = PtDAO.getInstance();
+		this.alumno = (Alumno)ActionContext.getContext().getSession().get("logged");
 		if(this.listaAsignaturas.size() == 0)
 		{
-			this.alumno = (Alumno)ActionContext.getContext().getSession().get("logged");
 			Set<Asignatura> asignaturaSet = dao.getAsignaturas(this.alumno.getDni());
 			for (Asignatura asignatura: asignaturaSet)
 			{
@@ -82,6 +82,7 @@ public class StudentAction extends ActionSupport implements Preparable {
 	
 	public String doShowMarks()
 	{
+		this.alumno = (Alumno)ActionContext.getContext().getSession().get("logged");
 		return "evaluacionList";
 	}
 	
