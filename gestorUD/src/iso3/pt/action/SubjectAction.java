@@ -90,7 +90,8 @@ public class SubjectAction extends ActionSupport implements Preparable
 	{
 		PtDaoService dao = new PtDaoService();
 		this.asignatura = dao.getAsignatura(subjectId);
-		this.alumno = dao.getAlumno(studentDni);
+		//this.alumno = dao.getAlumno(studentDni);
+		this.alumno = (Alumno)ActionContext.getContext().getSession().get("logged");
 	}
 
 	public String doShowSubjectUnits()   
@@ -112,10 +113,10 @@ public class SubjectAction extends ActionSupport implements Preparable
 	{
 		PtDaoService dao = new PtDaoService();
 		this.listaEvaluaciones = new ArrayList<Evaluacion>();
-//		Alumno alumno1 = (Alumno)ActionContext.getContext().getSession().get("logged");
+		Alumno alumno1 = (Alumno)ActionContext.getContext().getSession().get("logged");
 		if(this.listaEvaluaciones.size() == 0)
 		{
-			Set<Evaluacion> evalSet = dao.getEvaluaciones(subjectId, studentDni);
+			Set<Evaluacion> evalSet = alumno.getEvaluaciones();
 			for(Evaluacion evaluacion: evalSet)
 			{
 				this.listaEvaluaciones.add(evaluacion);

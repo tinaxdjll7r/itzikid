@@ -1,10 +1,11 @@
 package iso3.pt.action;
 
-import iso3.pt.dao.PtDAO;
+
 import iso3.pt.model.Alumno;
 import iso3.pt.model.Asignatura;
 import iso3.pt.model.Evaluacion;
 import iso3.pt.model.Profesor;
+import iso3.pt.service.PtDaoService;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -52,7 +53,7 @@ public class StudentAction extends ActionSupport implements Preparable {
 	@Override
 	public void prepare() throws Exception {
 		this.listaAsignaturas = new ArrayList<Asignatura>();
-		PtDAO dao = PtDAO.getInstance();
+		PtDaoService dao = new PtDaoService();
 		this.alumno = (Alumno)ActionContext.getContext().getSession().get("logged");
 		if(this.listaAsignaturas.size() == 0)
 		{
@@ -89,7 +90,7 @@ public class StudentAction extends ActionSupport implements Preparable {
 	public String doFormularioMatricular()
 	{
 		this.listaAsignaturas = new ArrayList<Asignatura>();
-		PtDAO dao = PtDAO.getInstance();
+		PtDaoService dao = new PtDaoService();
 		
 		for (Iterator<Asignatura> i = dao.getAsignaturas().iterator(); i.hasNext();)
 		{
@@ -101,13 +102,13 @@ public class StudentAction extends ActionSupport implements Preparable {
 	
 	public String doMatricular()
 	{	
-		PtDAO dao = PtDAO.getInstance();
+		PtDaoService dao = new PtDaoService();
 		dao.matricular(this.alumno.getDni(), this.subjectId);
 		return "matricular";
 	}
 	public String doDesmatricular()
 	{
-		PtDAO dao = PtDAO.getInstance();
+		PtDaoService dao = new PtDaoService();
 		dao.desmatricular(this.alumno.getDni(), this.subjectId);
 		return "desmatricular";
 	}
