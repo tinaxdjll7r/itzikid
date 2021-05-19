@@ -9,8 +9,6 @@
 		<div class="titleDiv"><s:text name="application.title"/></div>
 		<h1><s:text name="label.subject.mark"/>
 		</h1>
-		<br/>
-		<br/>
 		<table class="borderAll">
 		    <tr>
 		        <th><s:text name="label.subjectStudents.dni"/></th>
@@ -25,7 +23,8 @@
 	            <td class="nowrap"><s:property value="alumno.telefono"/></td>
 	        </tr>
 		</table>
-		
+		<br/>
+		<br/>
 		<table class="borderAll">
 		    <tr>
 		        <th><s:text name="label.lecturerSubjects.code"/></th>
