@@ -89,8 +89,6 @@ public class SubjectAction extends ActionSupport implements Preparable
 	public void prepare() throws Exception 
 	{
 		PtDaoService dao = new PtDaoService();
-		this.asignatura = dao.getAsignatura(subjectId);
-		//this.alumno = dao.getAlumno(studentDni);
 		this.alumno = (Alumno)ActionContext.getContext().getSession().get("logged");
 	}
 
