@@ -5,6 +5,7 @@ import iso3.pt.model.Alumno;
 import iso3.pt.model.Asignatura;
 import iso3.pt.model.Evaluacion;
 import iso3.pt.model.Profesor;
+import iso3.pt.model.Unidad;
 import iso3.pt.service.PtDaoService;
 
 import java.util.ArrayList;
@@ -20,12 +21,30 @@ import com.opensymphony.xwork2.Preparable;
 public class StudentAction extends ActionSupport implements Preparable {
 
 	private List<Asignatura> listaAsignaturas;
+	private List<Asignatura> listaTodasAsignaturas;
 	private Alumno alumno;
+	private int studentDni;
 	private static final long serialVersionUID = 1L;
 	private int subjectId;
 	
 	
 	
+	public List<Asignatura> getListaTodasAsignaturas() {
+		return listaTodasAsignaturas;
+	}
+
+	public void setListaTodasAsignaturas(List<Asignatura> listaTodasAsignaturas) {
+		this.listaTodasAsignaturas = listaTodasAsignaturas;
+	}
+
+	public int getStudentDni() {
+		return studentDni;
+	}
+
+	public void setStudentDni(int studentDni) {
+		this.studentDni = studentDni;
+	}
+
 	public List<Asignatura> getListaAsignaturas() {
 		return listaAsignaturas;
 	}
@@ -89,14 +108,15 @@ public class StudentAction extends ActionSupport implements Preparable {
 	
 	public String doFormularioMatricular()
 	{
-		this.listaAsignaturas = new ArrayList<Asignatura>();
 		PtDaoService dao = new PtDaoService();
+		this.listaTodasAsignaturas = new ArrayList<Asignatura>();
+		Set<Asignatura> asignaturasSet = dao.getAsignaturas();
 		
-		for (Iterator<Asignatura> i = dao.getAsignaturas().iterator(); i.hasNext();)
+		for (Asignatura asignatura: asignaturasSet)
 		{
-			Asignatura asig = i.next();
-			this.listaAsignaturas.add(asig);
+			listaTodasAsignaturas.add(asignatura);
 		}
+		
 		return "formularioMatricular";
 	}
 	
@@ -104,13 +124,24 @@ public class StudentAction extends ActionSupport implements Preparable {
 	{	
 		PtDaoService dao = new PtDaoService();
 		dao.matricular(this.alumno.getDni(), this.subjectId);
+		this.cargarLista();
 		return "matricular";
 	}
 	public String doDesmatricular()
 	{
 		PtDaoService dao = new PtDaoService();
 		dao.desmatricular(this.alumno.getDni(), this.subjectId);
+		this.cargarLista();
 		return "desmatricular";
+	}
+	
+	public void cargarLista()
+	{
+		try
+		{
+			this.prepare();
+		}
+		catch (Exception e) {e.printStackTrace();}
 	}
 
 }
