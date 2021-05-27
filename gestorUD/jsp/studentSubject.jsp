@@ -51,13 +51,14 @@
 		            <td class="nowrap"><s:property value="%{alumnos.size()}"/></td>
 					<td class="nowrap">
 						<s:url id="desmatricular" action="doListSubjectsAlumno!Desmatricular">
+						<s:param name="subjectId" value="%{id}" />
 						</s:url>
 						<s:a href="%{desmatricular}"><s:text name="label.subjectStudent.desmatricular"/></s:a>
 					</td> 
 					<td class="nowrap">
-		           		<s:url id="notasAsignatura" action="doShowMarks!ShowMarks">
+		           		<s:url id="ShowSubjectMarks" action="doSubject!ShowSubjectMarks">
 		           		</s:url>
-		           		<s:a href="%{notasAsignatura}"><s:text name="label.subjectStudent.showMarks"/></s:a>
+		           		<s:a href="%{ShowSubjectMarks}"><s:text name="label.subjectStudent.showMarks"/></s:a>
 					</td>           
 		        </tr>
 		    </s:iterator>

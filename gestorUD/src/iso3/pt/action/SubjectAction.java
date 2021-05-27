@@ -122,4 +122,19 @@ public class SubjectAction extends ActionSupport implements Preparable
 		}
 		return "evaluacionList";
 	}
+	
+	public String doShowSubjectMarks()
+	{
+		PtDaoService dao = new PtDaoService();
+		this.listaEvaluaciones = new ArrayList<Evaluacion>();
+		if(this.listaEvaluaciones.size() == 0)
+		{
+			Set<Evaluacion> evalSet = alumno.getEvaluaciones();
+			for(Evaluacion evaluacion: evalSet)
+			{
+				this.listaEvaluaciones.add(evaluacion);
+			}
+		}
+		return "evaluacionesAsignatura";
+	}
 }

@@ -16,7 +16,7 @@
 		
 		<s:form action="doListSubjectsAlumno!Matricular" method="POST">
 		    <s:select name="subjectId" list="listaTodasAsignaturas" listKey="id" listValue="nombre" label="%{getText('label.matricular.asignatura')}" />     
-			<s:submit value="%{getText('label.subject.send')}" align="center"/>
+			<s:submit value="%{getText('label.matricular.entregar')}" align="center"/>
 			<s:submit value="%{getText('label.subjectStudents.cancelButton')}" align="center"/>
 		</s:form>
 	
