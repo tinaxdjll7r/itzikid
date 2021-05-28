@@ -44,5 +44,9 @@
 		    
 		</table>
 		
+		<s:form action="doListSubjectsAlumno" >
+			<s:submit value="%{getText('label.subjectStudents.cancelButton')}" align="center"/>
+		</s:form>
+		
 	</body>
 </html>

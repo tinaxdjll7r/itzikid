@@ -36,12 +36,12 @@
 		        <th>&nbsp;&nbsp;</th>
 		    </tr>
 		    <tr class="<s:if test="#status.even">even</s:if><s:else>odd</s:else>">
-		            <td class="nowrap"><s:property value="asignatura.codigo"/></td>
+		            <td class="nowrap"><s:property value="codigo"/></td>
 		            <td class="nowrap"><s:property value="asignatura.nombre"/></td>
 		            <td class="nowrap"><s:property value="asignatura.creditos"/></td>
 		            <td class="nowrap"><s:property value="%{asignatura.profesor.getNombre()}"/></td>
 		            <td class="nowrap"><s:property value="%{asignatura.alumnos.size()}"/></td>            
-		        </tr>
+		    </tr>
 		</table>
 		<br/>
 		<br/>
@@ -60,6 +60,10 @@
 		    </s:iterator>
 		    
 		</table>
+		
+		<s:form action="doListSubjectsAlumno" >
+			<s:submit value="%{getText('label.subjectStudents.cancelButton')}" align="center"/>
+		</s:form>
 		
 	</body>
 </html>
