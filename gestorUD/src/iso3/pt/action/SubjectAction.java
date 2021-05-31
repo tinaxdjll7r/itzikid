@@ -128,12 +128,11 @@ public class SubjectAction extends ActionSupport implements Preparable
 	public String doShowSubjectMarks()
 	{
 		PtDaoService dao = new PtDaoService();
-		this.asignatura = dao.getAsignatura(subjectId);
 		this.listaEvaluaciones = new ArrayList<Evaluacion>();
-	//	Set<Evaluacion> evalSet = dao.getEvaluaciones(subjectId, studentDni);
+		Set<Evaluacion> evalSet = dao.getEvaluaciones(this.asignatura.getId(), this.alumno.getDni());
 		if(this.listaEvaluaciones.size() == 0)
 		{
-			Set<Evaluacion> evalSet = alumno.getEvaluaciones();
+		//	Set<Evaluacion> evalSet = alumno.getEvaluaciones();
 			for(Evaluacion evaluacion: evalSet)
 			{
 				this.listaEvaluaciones.add(evaluacion);
