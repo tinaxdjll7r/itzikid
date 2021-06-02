@@ -129,7 +129,7 @@ public class SubjectAction extends ActionSupport implements Preparable
 	{
 		PtDaoService dao = new PtDaoService();
 		this.listaEvaluaciones = new ArrayList<Evaluacion>();
-		Set<Evaluacion> evalSet = dao.getEvaluaciones(this.asignatura.getId(), this.alumno.getDni());
+		Set<Evaluacion> evalSet = dao.getEvaluaciones(this.asignatura.getId(),this.alumno.getDni());
 		if(this.listaEvaluaciones.size() == 0)
 		{
 		//	Set<Evaluacion> evalSet = alumno.getEvaluaciones();

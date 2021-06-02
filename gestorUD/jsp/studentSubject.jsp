@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<div class="titleDiv"><s:text name="application.title"/></div>
-		<h1><s:text name="label.subjectStudent.student"/> <s:property value="alumno.nombre"/> <s:property value="alumno.dni"/> </h1>
+		<h1><s:text name="label.subjectStudent.student"/> <s:property value="alumno.nombre"/> (<s:property value="alumno.dni"/>) </h1>
 		<br/>
 		<table>
 			<tr>
@@ -57,6 +57,8 @@
 					</td> 
 					<td class="nowrap">
 		           		<s:url id="ShowSubjectMarks" action="doSubject!ShowSubjectMarks">
+		           		<s:param name="studentDni" value="%{dni}" />
+		           		<s:param name="subjectId" value="%{id}" />
 		           		</s:url>
 		           		<s:a href="%{ShowSubjectMarks}"><s:text name="label.subjectStudent.showMarks"/></s:a>
 					</td>           

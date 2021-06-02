@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<div class="titleDiv"><s:text name="application.title"/></div>
-		<h1><s:text name="label.marks.tittle"/></h1>
+		<h1><s:text name="label.marks.tittle"/> "<s:property value="alumno.nombre"/>" <s:text name="para asignatura"/> "<s:property value="asignatura.nombre"/>"</h1>
 		<br/>
 		<br/>
 		<table class="borderAll">
@@ -36,7 +36,7 @@
 		        <th>&nbsp;&nbsp;</th>
 		    </tr>
 		    <tr class="<s:if test="#status.even">even</s:if><s:else>odd</s:else>">
-		            <td class="nowrap"><s:property value="codigo"/></td>
+		            <td class="nowrap"><s:property value="asignatura.codigo"/></td>
 		            <td class="nowrap"><s:property value="asignatura.nombre"/></td>
 		            <td class="nowrap"><s:property value="asignatura.creditos"/></td>
 		            <td class="nowrap"><s:property value="%{asignatura.profesor.getNombre()}"/></td>

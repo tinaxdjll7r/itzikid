@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<div class="titleDiv"><s:text name="application.title"/></div>
-		<h1><s:text name="label.marks.tittle"/></h1>
+		<h1><s:text name="label.marks.tittle"/> "<s:property value="alumno.nombre"/>"</h1>
 		<br/>
 		<br/>
 		<table class="borderAll">

@@ -11,7 +11,7 @@
 				
 		<div class="titleDiv"><s:text name="application.title"/></div>
 		<h1>
-			<s:text name="label.matricular.title"/>
+			<s:text name="label.matricular.title"/> <s:property value="alumno.nombre"/> (<s:property value="alumno.dni"/>)
 		</h1>
 		
 		<s:form action="doListSubjectsAlumno!Matricular" method="POST">
