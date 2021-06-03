@@ -40,15 +40,18 @@
         
         
         <action name="doSubject" class="iso3.pt.action.SubjectAction">
+        	<result>/jsp/studentSubjectMarks.jsp</result>
         	<result name="showUnitList">/jsp/subjectUnitList.jsp</result>
         	<result name="evaluacionList">/jsp/StudentAllSubjectsMarks.jsp</result>
         	<result name="evaluacionesAsignatura">/jsp/studentSubjectMarks.jsp</result>
+        	<result name="backAlumno" type="chain">doListSubjectsAlumno</result>
+        	<result name="backProfesor" type="chain">doListSubjects</result>
         </action>
         
         <action name="doSubjectMarking" class="iso3.pt.action.SubjectMarkingAction" method="mark">
         	<result>/jsp/studentSubjectMarkingForm.jsp</result>
         	<result name="success">/jsp/studentSubjectMarkingForm.jsp</result>
-        	<result name="showStudentMarks" type="chain">doListSubjects</result>
+        	<result name="showStudentMarks" type="chain">doSubject</result>
         </action>
 	</package>
 </struts>
