@@ -61,7 +61,7 @@
 		    
 		</table>
 		
-		<s:form action="doListSubjectsAlumno" >
+		<s:form action="doSubject!cancelSubjectList" method="post" >
 			<s:submit value="%{getText('label.subjectStudents.cancelButton')}" align="center"/>
 		</s:form>
 		
