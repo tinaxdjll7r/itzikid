@@ -2,6 +2,7 @@ package iso3.pt.action;
    
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import iso3.pt.model.Alumno;
@@ -89,7 +90,7 @@ public class SubjectAction extends ActionSupport implements Preparable
 	public void prepare() throws Exception 
 	{
 		PtDaoService dao = new PtDaoService();
-		this.alumno = (Alumno)ActionContext.getContext().getSession().get("logged");
+		this.alumno = dao.getAlumno(studentDni);
 		this.asignatura = dao.getAsignatura(subjectId);
 		
 	}
@@ -129,6 +130,7 @@ public class SubjectAction extends ActionSupport implements Preparable
 	{
 		PtDaoService dao = new PtDaoService();
 		this.listaEvaluaciones = new ArrayList<Evaluacion>();
+		this.alumno = (Alumno)ActionContext.getContext().getSession().get("logged");
 		Set<Evaluacion> evalSet = dao.getEvaluaciones(this.asignatura.getId(),this.alumno.getDni());
 		if(this.listaEvaluaciones.size() == 0)
 		{
@@ -139,5 +141,21 @@ public class SubjectAction extends ActionSupport implements Preparable
 			}
 		}
 		return "evaluacionesAsignatura";
+	}
+	
+	public String doCancelSubjectList()
+	{
+		String result = "";
+		Map session = ActionContext.getContext().getSession();
+		
+		if (session.get("logged") instanceof iso3.pt.model.Alumno)
+		{
+			result = "backAlumno";
+		}
+		else
+		{
+			result = "backProfesor";
+		}
+		return result;
 	}
 }
