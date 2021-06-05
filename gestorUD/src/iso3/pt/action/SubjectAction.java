@@ -117,7 +117,7 @@ public class SubjectAction extends ActionSupport implements Preparable
 		Alumno alumno1 = (Alumno)ActionContext.getContext().getSession().get("logged");
 		if(this.listaEvaluaciones.size() == 0)
 		{
-			Set<Evaluacion> evalSet = alumno.getEvaluaciones();
+			Set<Evaluacion> evalSet = alumno1.getEvaluaciones();
 			for(Evaluacion evaluacion: evalSet)
 			{
 				this.listaEvaluaciones.add(evaluacion);

@@ -40,7 +40,6 @@
         
         
         <action name="doSubject" class="iso3.pt.action.SubjectAction">
-        	<result>/jsp/studentSubjectMarks.jsp</result>
         	<result name="showUnitList">/jsp/subjectUnitList.jsp</result>
         	<result name="evaluacionList">/jsp/StudentAllSubjectsMarks.jsp</result>
         	<result name="evaluacionesAsignatura">/jsp/studentSubjectMarks.jsp</result>
